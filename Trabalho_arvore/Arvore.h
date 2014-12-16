@@ -13,7 +13,7 @@ typedef struct arv
     struct arv* conjuge;
     char nome[20];
     char sexo;
-}arv, Parv;
+}arv, *Parv;
 
 //funções principais
 
@@ -21,7 +21,7 @@ void cria_arv();
 void deleta_arv();
 void insere_arv();
 void busca_arv();
-
+void transform_nod();
 //variaveis globais
 arv* raiz = NULL;
 
@@ -49,15 +49,24 @@ insere_arv(arv* nod, char nome[])
 
 deleta_arv(arv* nod)
 {
+    arv *aux;
     if (nod->esq && nod->dir) == NULL)
     {
         free(nod);
     }
     else if (nod->esq == NULL && nod->dir != NULL)
     {
-
+        aux = nod;
+        nod = nod->esq;
+        free(aux);
     }
     else if (nod->dir == NULL && nod->esq != NULL)
+    {
+        aux = nod;
+        nod = nod->dir;
+        free(aux);
+    }
 
 }
 
+void transform_nod()
