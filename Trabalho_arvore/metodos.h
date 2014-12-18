@@ -2,6 +2,7 @@
 #define METODOS_H_INCLUDED
 #endif // METODOS_H_INCLUDED
 
+
 //Retorna 0 se a primeira palavra vier primeiro que a segunda, e 1 se o contrário 2 se iguais
 int ordem_alfabetica(char palavra[], char palavra1[])
 {
@@ -117,14 +118,15 @@ void printa_primos(arv* pessoa)
 //Enche a árvore automaticamente tendo limite de até 200 pessoas
 void casa_emordem(Parv nod)
 {
-    while (tamanho_arv < 200)
+    while (tamanho_arv < 50)
     {
         if (nod != NULL)
         {
-            casa_emordem(nod->esq);
-            if (nod->esq->filho == NULL)
+            if (nod->filho == NULL)
             {
                 nodoaux1 = busca_conjuge(nod, raiz);
+                if (nodoaux1 == NULL)
+                    return;
                 nodoaux1->conjuge = nod;
                 nod->conjuge = nodoaux1;
                 if (nod->sexo == 0)
@@ -132,9 +134,10 @@ void casa_emordem(Parv nod)
                 else
                     cria_filhos(nodoaux1, nod);
             }
-            casa_emordem(raiz->dir);
+            casa_emordem(nod->esq);
+            casa_emordem(nod->dir);
         }
-
+        printf("aqui fora while casaemordem",tamanho_arv);
     }
 }
 
@@ -163,18 +166,18 @@ void imp_minhaordem(Parv raiz)
 }
 
 //Cria um nome para a pessoa de acordo com o nome do pai(O sobrenome do pai passa para os filhos)
-char cria_nome(arv* pai, int sexo)
+char* cria_nome(arv* pai, int sexo)
 {
-    char nome[20];
+    char* nome = malloc(sizeof(char)*20);
     if (sexo == 1)
     {
-        strcpy(nome,nomes_masculinos[rand()%30]);
+        strcpy(nome,nomes_masculinos[rand()%25]);
         strcat(nome,familias[pai->familia]);
         return nome;
     }
     else
     {
-        strcpy(nome,nomes_femininos[rand()%30]);
+        strcpy(nome,nomes_femininos[rand()%25]);
         strcat(nome,familias[pai->familia]);
         return nome;
     }
@@ -185,17 +188,34 @@ void cria_primeiros(int quantidade)
 {
     arv* pai;
     arv* mae;
-    int sexo =1, i = 0;
+    int sexo =1;
+    int i = 0, j = 0;
     char nome[20];
+    quantidade_familias = quantidade;
     for (i=0;i<quantidade;i++)
     {
-        srand(time(NULL));
         strcpy(familias[i],(sobre_nomes[rand()%20]));
+        while (j<i)
+        {
+            if((strcmp(familias[i],familias[j]))==0)
+            {
+                j = -1;
+                strcpy(familias[i],(sobre_nomes[rand()%20]));
+            }
+            j++;
+        }
+        strcpy(nome,nomes_masculinos[rand()%30]);
         strcat(nome,familias[i]);
         pai = insere_arv(&raiz,nome,sexo, NULL);
+        pai->familia = i;
         sexo = 0;
+        strcpy(nome,nomes_femininos[rand()%30]);
+        strcat(nome,familias[i]);
         mae = insere_arv(&raiz,nome, sexo, NULL);
+        mae->familia = i;
         sexo = 1;
+        printf("antes cria filhos em criaprimeiros");
+        getch();
         cria_filhos(pai,mae);
     }
 }
@@ -203,22 +223,27 @@ void cria_primeiros(int quantidade)
 //Verifica se o pai e a mae tem parentesco, se não, cria um valor aleatório de filhos entre 0 e 4
 void cria_filhos(arv* pai,arv* mae)
 {
-    int i, filhos;
-    arv* pessoa;
-    arv* irmao;
+    int i, filhos, sexo;
+    char nome[20];
+    char* Pnome;
+    arv* pessoa = NULL;
+    arv* irmao = NULL;
     filhos = (1+rand()%4);
-    int sexo;
-    if (pai->familia == mae->familia)
-        return NULL;
-    srand(time(NULL));
+    printf("cria filhosfilhos: %d", filhos);
     for (i=0;i<filhos;i++)
     {
-        srand(time(NULL));
+        sexo = rand()%2;
+        printf("       sexo %d", sexo);
+        Pnome = cria_nome(pai,sexo);
+        strcpy(nome,Pnome);
+        free(Pnome);
+        printf("  depois do free");
         if (pessoa != NULL)
             irmao = pessoa;
-        sexo = rand()%1;
-        pessoa = insere_arv(&raiz,cria_nome(pai,sexo),sexo, NULL);
-        irmao->irmao = pessoa;
+        pessoa = insere_arv(&raiz,nome,sexo, pai);
+        if (irmao != NULL)
+            irmao->irmao = pessoa;
+        printf("pessoa: %p",pessoa);
     }
 }
 

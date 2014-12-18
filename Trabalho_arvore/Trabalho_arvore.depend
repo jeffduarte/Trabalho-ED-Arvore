@@ -1,0 +1,17 @@
+# depslib dependency file v1.0
+1418932615 source:c:\users\duarte\documents\github\trabalho-ed-arvore\trabalho_arvore\main.c
+	<stdio.h>
+	<stdlib.h>
+	<ctype.h>
+	<time.h>
+	<string.h>
+	"nomes.h"
+	"arvore.h"
+	"metodos.h"
+
+1418901910 c:\users\duarte\documents\github\trabalho-ed-arvore\trabalho_arvore\nomes.h
+
+1418930445 c:\users\duarte\documents\github\trabalho-ed-arvore\trabalho_arvore\arvore.h
+
+1418933194 c:\users\duarte\documents\github\trabalho-ed-arvore\trabalho_arvore\metodos.h
+
