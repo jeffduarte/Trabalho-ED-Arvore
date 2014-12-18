@@ -70,7 +70,10 @@ arv* insere_arv(Parv* nod, char nome[], int sexo, arv* pai)
         }
         (*nod)->esq = NULL;
         (*nod)->dir = NULL;
+        (*nod)->filho = NULL;
         (*nod)->pai = pai;
+        (*nod)->conjuge = NULL;
+        (*nod)->mae = NULL;
         (*nod)->sexo = sexo;
         if (pai != NULL)
         {
@@ -177,16 +180,17 @@ arv* busca_arv(char nome[30] ,Parv* nodo, int aspectos)
             printa_primos(*nodo);
             printf("\n");
             printa_tio(*nodo);
+            getch();
         }
         return (*nodo);
     }
     else if (ordem_alfabetica(nome,(*nodo)->nome) == 0)
     {
-        busca_arv(nome,&((*nodo)->esq),0);
+        busca_arv(nome,&((*nodo)->esq),aspectos);
     }
     else
     {
-        busca_arv(nome,&((*nodo)->dir),0);
+        busca_arv(nome,&((*nodo)->dir),aspectos);
     }
 }
 

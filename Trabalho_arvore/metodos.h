@@ -42,6 +42,8 @@ void printa_filhos(arv* pessoa)
     int i;
     arv* aux;
     aux = pessoa->filho;
+    if (aux == NULL)
+        printf("Sem filhos");
     while (aux != NULL)
     {
         printf("filhos: ");
@@ -55,7 +57,10 @@ void printa_tio(arv* pessoa)
     int i;
     arv* aux;
     if (pessoa->pai == NULL)
+    {
+        printf("Nenhum tio");
         return NULL;
+    }
     aux = pessoa->pai->irmao;
     while (aux != NULL)
     {
@@ -74,8 +79,16 @@ void printa_tio(arv* pessoa)
 
 void printa_avos(arv* pessoa)
 {
-        if (pessoa->pai->pai == NULL)
+        if (pessoa->pai == NULL)
+        {
+            printf("Nenhum avo");
             return NULL;
+        }
+        if (pessoa->pai->pai == NULL)
+        {
+            printf("Nenhum avo");
+            return NULL;
+        }
         printf("avo: %s  ",pessoa->pai->pai);
         printf("avoh: %s",pessoa->pai->pai->conjuge);
 }
@@ -83,10 +96,10 @@ void printa_avos(arv* pessoa)
 void printa_primos(arv* pessoa)
 {
     if (pessoa->pai == NULL || pessoa->pai->irmao == NULL|| pessoa->pai->irmao->filho == NULL)
-        printf("");
+        printf("Nenhum parte de pai");
     else
     {
-        printf("\nPrimos parte de pai: ");
+        printf("\nPrimos primo parte de pai: ");
         Parv aux;
         aux = pessoa->pai->irmao->filho;
         while(pessoa->pai->irmao->filho!=NULL);
@@ -98,7 +111,7 @@ void printa_primos(arv* pessoa)
         }
     }
     if (pessoa->mae == NULL || pessoa->mae->irmao == NULL || pessoa->mae->irmao->filho == NULL)
-        printf("");
+        printf("\nNenhum primo parte de mae");
     else
     {
         printf("\nPrimos parte de mae: ");
