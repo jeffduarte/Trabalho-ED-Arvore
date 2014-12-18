@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
-#include <stdbool.h>
-#include "Arvore.h"
-#include "metodos.h"
 #include <time.h>
+#include <string.h>
+#include "nomes.h"
+#include "arvore.h"
+#include "metodos.h"
 
 int main()
 {
-    printf("Hello world!\n");
+    printf("ALFA VERSION, Enjoy It!\n");
     return 0;
 }
