@@ -50,8 +50,6 @@ char nomes_masculinos[31][15] = {
 ,"Nicolas "
 ,"Heitor "
 ,"Samuel "
-,"Joao Pedro "
-,"Pedro Henrique "
 ,"Caua "
 ,"Henrique "
 ,"Murilo "
@@ -62,7 +60,6 @@ char nomes_masculinos[31][15] = {
 ,"Vinicius "
 ,"Pietro "
 ,"Pietra "
-,"Joao Vitor "
 ,"Leonardo "
 ,"Theo "
 };
