@@ -14,23 +14,15 @@ int main()
     int menu = 0;
     int quantidade, aux, valor, i = 0;
     char nome[40];
-    while (menu != 7)
+    while (menu != 6)
     {
         system("cls");
         printf("                                TRABALHO ARVORE\n");
-        printf("\n\n1 - Inserir\n2 - Busca\n3 - Enche a Arvore\n4 - Imprime Familias\n5 - Imprime em Ordem\n6 - Printa tamanho da arvore\n7 - Sai do Programa\n\nOpcao: ");
+        printf("\n\n1 - Busca\n2 - Enche a Arvore\n3 - Imprime Familias\n4 - Imprime em Ordem\n5 - Printa numero de nos da arvore\n6 - Sai do Programa\n\nOpcao: ");
         scanf("%d",&menu);
         switch(menu)
         {
             case(1):
-                printf("Digite o nome: ");
-                setbuf(stdin,(NULL));
-                gets(nome);
-                printf("Digite o sexo 0: Feminino 1: Masculino: ");
-                scanf("%d",&aux);
-                insere_arv(&raiz,nome,aux,NULL);
-                break;
-            case(2):
                 printf("Quem deseja buscar?: ");
                 setbuf(stdin,(NULL));
                 gets(nome);
@@ -39,37 +31,46 @@ int main()
                     printf("Nome nao encontrado");
                 getch();
                 break;
-            case(3):
+            case(2):
                 if (raiz == NULL)
                 {
-                    printf("Quantidade de familias(20): ");
-                    scanf("%d",&quantidade);
-                    cria_primeiros(quantidade);
-                    casa_emordem(raiz);
-                    imp_emordem(raiz);
-                    getch();
+                    if(raiz != NULL)
+                        printf("Arvore cheia!");
+                    else
+                    {
+                        printf("Quantidade de familias(Ate 50): ");
+                        scanf("%d",&quantidade);
+                        if (quantidade>50)
+                            printf("\nEntrada superior ao limite permitido");
+                        else
+                        {
+                            cria_primeiros(quantidade);
+                            casa_emordem(raiz);
+                            imp_emordem(raiz);
+                            getch();
+                        }
+                    }
+
                 }
-                else
-                {
-                    printf("\nArvore cheia!");
-                    getch();
-                }
-                break;
-            case(4):
+            case(3):
                 for (i = 0;i<=quantidade_familias-1;i++)
                 {
                     printf("%s  ",familias[i]);
                 }
                 getch();
                 break;
-            case(5):
+            case(4):
                 imp_emordem(&raiz);
                 getch();
                 break;
-            case(6):
+            case(5):
                 printf("%d",tamanho_arv);
                 getch();
                 break;
+            case(6):
+                break;
+            default:
+                printf("\nOpcao invalida!");
         }
     }
     return 0;

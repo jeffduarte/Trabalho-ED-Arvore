@@ -2,6 +2,7 @@
 #define NOMES_H_INCLUDED
 #endif // NOMES_H_INCLUDED
 
+//NOMES FEMININOS
 char nomes_femininos[41][15] = {
 "Rafaela "
 ,"Gabriela "
@@ -46,6 +47,8 @@ char nomes_femininos[41][15] = {
 ,"Sabrina "
 };
 
+
+//NOMES MASCULINOS
 char nomes_masculinos[40][15] = {
 "Miguel "
 ,"Davi "
@@ -89,6 +92,7 @@ char nomes_masculinos[40][15] = {
 ,"Ronaldo "
 };
 
+//SOBRENOMES
 char sobre_nomes[60][21] = {
 "Muller"
 ,"Smirnov"

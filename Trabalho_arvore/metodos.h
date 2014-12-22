@@ -36,6 +36,7 @@ int ordem_alfabetica(char palavra[], char palavra1[])
     return 2;
 }
 
+//IMPRIME OS FILHOS
 void printa_filhos(arv* pessoa)
 {
     int i;
@@ -54,6 +55,8 @@ void printa_filhos(arv* pessoa)
     }
 }
 
+
+//IMPRIME OS TIOS
 void printa_tio(arv* pessoa)
 {
     arv* aux;
@@ -89,7 +92,7 @@ void printa_tio(arv* pessoa)
     else
         printf("\nNenhum tio parte de mae");
 }
-
+//IMPRIME OS IRMAOS
 void printa_irmaos(arv* pessoa)
 {
     Parv aux;
@@ -112,7 +115,7 @@ void printa_irmaos(arv* pessoa)
         aux = aux->irmao;
     }
 }
-
+//IMPRIME TODOS OS PARENTES
 void printa_aspectos(arv *nodo)
 {
     printa_pais(nodo);
@@ -129,7 +132,7 @@ void printa_aspectos(arv *nodo)
     printf("\n");
     printa_conjuge(nodo);
 }
-
+//IMPRIME O MARIDO OU A MULHER
 void printa_conjuge(arv* pessoa)
 {
     if (pessoa == NULL)
@@ -145,7 +148,7 @@ void printa_conjuge(arv* pessoa)
         return;
     }
 }
-
+//IMPRIME OS PAIS
 void printa_pais(arv* pessoa)
 {
     if (pessoa->pai == NULL)
@@ -155,7 +158,7 @@ void printa_pais(arv* pessoa)
         printf("Pai: %s \nMae: %s",pessoa->pai->nome,pessoa->mae->nome);
     }
 }
-
+//IMPRIME AVOS
 void printa_avos(arv* pessoa)
 {
         if (pessoa->pai == NULL)
@@ -172,12 +175,22 @@ void printa_avos(arv* pessoa)
 
         printf("\navoh: %s",pessoa->pai->pai->conjuge->nome);
 }
-
+//IMPRIME PRIMOS
 void printa_primos(arv* pessoa)
 {
     Parv aux;
-    if (pessoa->pai == NULL || pessoa->pai->irmao == NULL || pessoa->pai->irmao->filho == NULL)
+    if (pessoa->pai == NULL)
+    {
         printf("Nenhum primo parte de pai");
+    }
+    else if(pessoa->pai->irmao == NULL)
+    {
+        printf("Nenhum primo parte de pai");
+    }
+    else if (pessoa->pai->irmao->filho == NULL)
+    {
+        printf("Nenhum primo parte de pai");
+    }
     else
     {
         printf("Primos parte de pai:");
@@ -188,8 +201,18 @@ void printa_primos(arv* pessoa)
             aux = aux->irmao;
         }
     }
-    if (pessoa->mae == NULL || pessoa->mae->irmao == NULL || pessoa->mae->irmao->filho == NULL)
+    if (pessoa->mae == NULL)
+    {
         printf("\nNenhum primo parte de mae");
+    }
+    else if(pessoa->mae->irmao == NULL)
+    {
+        printf("\nNenhum primo parte de mae");
+    }
+    else if (pessoa->mae->irmao->filho == NULL)
+    {
+        printf("\nNenhum primo parte de mae");
+    }
     else
     {
         printf("\nPrimos parte de mae: ");
@@ -208,7 +231,9 @@ void printa_primos(arv* pessoa)
 void casa_emordem(Parv nod)
 {
     Parv conjuge = NULL;
-    if (tamanho_arv < 300)
+    if (global == 0)
+        global = tamanho_arv-5;
+    if (tamanho_arv < 300 && tamanho_arv)
     {
         if (nod != NULL)
         {
@@ -232,8 +257,14 @@ void casa_emordem(Parv nod)
                  }
 
             }
-            casa_emordem(nod->esq);
-            casa_emordem(nod->dir);
+            global++;
+            printf("Global: %d  Tamanho: %d",global,tamanho_arv);
+            if(global<tamanho_arv && global+50>tamanho_arv)
+            {
+                printf("Global: %d tamanho: %d",global,tamanho_arv);
+                casa_emordem(nod->esq);
+                casa_emordem(nod->dir);
+            }
         }
     }
 }
@@ -262,6 +293,8 @@ arv* busca_conjuge(arv* nod, arv* raiz)
         return NULL;
 }
 
+
+//COLOCA O SOBRE NOME DO MARIDO NA SUA ESPOSA
 void troca_sobrenome(Parv* marido, Parv* mulher)
 {
     char j = 's';
