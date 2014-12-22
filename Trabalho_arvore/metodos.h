@@ -45,6 +45,7 @@ void printa_filhos(arv* pessoa)
     if (aux == NULL)
         printf("Sem filhos");
     else
+<<<<<<< HEAD
     {
         printf("filhos: ");
         while (aux != NULL)
@@ -52,6 +53,13 @@ void printa_filhos(arv* pessoa)
             printf(" %s", aux->nome);
             aux = aux->irmao;
         }
+=======
+        printf("filhos: ");
+    while (aux != NULL)
+    {
+        printf(" %s", aux->nome);
+        aux = aux->irmao;
+>>>>>>> origin/master
     }
 }
 
@@ -81,7 +89,11 @@ void printa_tio(arv* pessoa)
     aux = pessoa->mae->pai->filho;
     if (aux->irmao != NULL)
     {
+<<<<<<< HEAD
         printf("\nTios parte de mae: ");
+=======
+        printf("Tios parte de mae: ");
+>>>>>>> origin/master
         while (aux != NULL)
         {
             if (aux != pessoa->mae)
@@ -92,7 +104,11 @@ void printa_tio(arv* pessoa)
     else
         printf("\nNenhum tio parte de mae");
 }
+<<<<<<< HEAD
 //IMPRIME OS IRMAOS
+=======
+
+>>>>>>> origin/master
 void printa_irmaos(arv* pessoa)
 {
     Parv aux;
@@ -115,7 +131,11 @@ void printa_irmaos(arv* pessoa)
         aux = aux->irmao;
     }
 }
+<<<<<<< HEAD
 //IMPRIME TODOS OS PARENTES
+=======
+
+>>>>>>> origin/master
 void printa_aspectos(arv *nodo)
 {
     printa_pais(nodo);
@@ -132,7 +152,11 @@ void printa_aspectos(arv *nodo)
     printf("\n");
     printa_conjuge(nodo);
 }
+<<<<<<< HEAD
 //IMPRIME O MARIDO OU A MULHER
+=======
+
+>>>>>>> origin/master
 void printa_conjuge(arv* pessoa)
 {
     if (pessoa == NULL)
@@ -148,7 +172,11 @@ void printa_conjuge(arv* pessoa)
         return;
     }
 }
+<<<<<<< HEAD
 //IMPRIME OS PAIS
+=======
+
+>>>>>>> origin/master
 void printa_pais(arv* pessoa)
 {
     if (pessoa->pai == NULL)
@@ -158,7 +186,11 @@ void printa_pais(arv* pessoa)
         printf("Pai: %s \nMae: %s",pessoa->pai->nome,pessoa->mae->nome);
     }
 }
+<<<<<<< HEAD
 //IMPRIME AVOS
+=======
+
+>>>>>>> origin/master
 void printa_avos(arv* pessoa)
 {
         if (pessoa->pai == NULL)
@@ -172,6 +204,12 @@ void printa_avos(arv* pessoa)
             return NULL;
         }
         printf("avo: %s  ",pessoa->pai->pai->nome);
+<<<<<<< HEAD
+=======
+
+        printf("\navoh: %s",pessoa->pai->pai->conjuge->nome);
+}
+>>>>>>> origin/master
 
         printf("\navoh: %s",pessoa->pai->pai->conjuge->nome);
 }
@@ -179,6 +217,7 @@ void printa_avos(arv* pessoa)
 void printa_primos(arv* pessoa)
 {
     Parv aux;
+<<<<<<< HEAD
     if (pessoa->pai == NULL)
     {
         printf("Nenhum primo parte de pai");
@@ -196,11 +235,21 @@ void printa_primos(arv* pessoa)
         printf("Primos parte de pai:");
         aux = pessoa->pai->irmao->filho;
         while(aux!=NULL)
+=======
+    if (pessoa->pai == NULL || pessoa->pai->irmao == NULL|| pessoa->pai->irmao->filho == NULL)
+        printf("Nenhum tio parte de pai");
+    else
+    {
+        printf("\nPrimos parte de pai:");
+        aux = pessoa->pai->irmao->filho;
+        while(aux!=NULL);
+>>>>>>> origin/master
         {
             printf(" %s", aux->nome);
             aux = aux->irmao;
         }
     }
+<<<<<<< HEAD
     if (pessoa->mae == NULL)
     {
         printf("\nNenhum primo parte de mae");
@@ -218,6 +267,15 @@ void printa_primos(arv* pessoa)
         printf("\nPrimos parte de mae: ");
         aux = pessoa->mae->irmao->filho;
         while(aux!=NULL)
+=======
+    if (pessoa->mae == NULL || pessoa->mae->irmao == NULL || pessoa->mae->irmao->filho == NULL)
+        printf("\nNenhum primo parte de mae");
+    else
+    {
+        printf("\nPrimos parte de mae:");
+        aux = pessoa->mae->irmao->filho;
+        while(aux!=NULL);
+>>>>>>> origin/master
         {
             printf(" %s", aux->nome);
             aux = aux->irmao;
@@ -231,9 +289,15 @@ void printa_primos(arv* pessoa)
 void casa_emordem(Parv nod)
 {
     Parv conjuge = NULL;
+<<<<<<< HEAD
     if (global == 0)
         global = tamanho_arv-5;
     if (tamanho_arv < 300 && tamanho_arv)
+=======
+    if (global<tamanho_arv)
+        global = tamanho_arv;
+    if (tamanho_arv < global*1.4 && tamanho_arv < 130)
+>>>>>>> origin/master
     {
         if (nod != NULL)
         {
@@ -245,6 +309,7 @@ void casa_emordem(Parv nod)
                     conjuge->conjuge = nod;
                     nod->conjuge = conjuge;
                     if (nod->sexo == 1)
+<<<<<<< HEAD
                     {
                         troca_sobrenome(&nod,&conjuge);
                         cria_filhos(nod, conjuge);
@@ -264,6 +329,13 @@ void casa_emordem(Parv nod)
                 printf("Global: %d tamanho: %d",global,tamanho_arv);
                 casa_emordem(nod->esq);
                 casa_emordem(nod->dir);
+=======
+                        cria_filhos(nod, conjuge);
+                    else
+                        cria_filhos(conjuge, nod);
+                 }
+
+>>>>>>> origin/master
             }
         }
     }
@@ -273,7 +345,10 @@ void casa_emordem(Parv nod)
 arv* busca_conjuge(arv* nod, arv* raiz)
 {
     arv* verifica = NULL;
+<<<<<<< HEAD
     printf("OPA");
+=======
+>>>>>>> origin/master
     if (nod != NULL && raiz != NULL && raiz != nod)
     {
         if ((raiz->filho == NULL) && (raiz->familia != (nod)->familia) && ((nod)->sexo != raiz->sexo))
@@ -361,12 +436,20 @@ void cria_primeiros(int quantidade)
             }
             j++;
         }
+<<<<<<< HEAD
         strcpy(nome,nomes_masculinos[rand()%40]);
+=======
+        strcpy(nome,nomes_masculinos[rand()%27]);
+>>>>>>> origin/master
         strcat(nome,familias[i]);
         pai = insere_arv(&raiz,nome,sexo, NULL);
         pai->familia = i;
         sexo = 0;
+<<<<<<< HEAD
         strcpy(nome,nomes_femininos[rand()%40]);
+=======
+        strcpy(nome,nomes_femininos[rand()%27]);
+>>>>>>> origin/master
         strcat(nome,familias[i]);
         mae = insere_arv(&raiz,nome, sexo, NULL);
         mae->familia = i;

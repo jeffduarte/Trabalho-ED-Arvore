@@ -1,5 +1,9 @@
 # depslib dependency file v1.0
+<<<<<<< HEAD
 1419227700 source:c:\users\duarte\documents\github\trabalho-ed-arvore\trabalho_arvore\main.c
+=======
+1418937021 source:c:\users\duarte\documents\github\trabalho-ed-arvore\trabalho_arvore\main.c
+>>>>>>> origin/master
 	<stdio.h>
 	<stdlib.h>
 	<ctype.h>
@@ -11,9 +15,15 @@
 
 1419222623 c:\users\duarte\documents\github\trabalho-ed-arvore\trabalho_arvore\nomes.h
 
+<<<<<<< HEAD
 1419232226 c:\users\duarte\documents\github\trabalho-ed-arvore\trabalho_arvore\arvore.h
 
 1419233807 c:\users\duarte\documents\github\trabalho-ed-arvore\trabalho_arvore\metodos.h
+=======
+1418938394 c:\users\duarte\documents\github\trabalho-ed-arvore\trabalho_arvore\arvore.h
+
+1418998512 c:\users\duarte\documents\github\trabalho-ed-arvore\trabalho_arvore\metodos.h
+>>>>>>> origin/master
 
 1419117406 source:e:\trabalho-ed-arvore\trabalho_arvore\main.c
 	<stdio.h>

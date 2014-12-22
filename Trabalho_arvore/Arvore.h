@@ -174,7 +174,10 @@ arv* busca_arv(char nome[30] ,Parv* nodo, int aspectos)
         if (aspectos == 1)
         {
             printa_aspectos(*nodo);
+<<<<<<< HEAD
             return (*nodo);
+=======
+>>>>>>> origin/master
         }
         else
             return (*nodo);
