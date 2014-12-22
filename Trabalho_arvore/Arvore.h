@@ -48,10 +48,10 @@ arv* raiz = NULL;
 arv* nodoaux = NULL;
 arv* nodoaux1 = NULL;
 arv* nodoaux2 = NULL;
-char familias[21][21];
+char familias[60][21];
 int tamanho_arv = 0;
 int quantidade_familias = 0;
-
+int global = 0;
 //código de funções
 
 //Insere a pessoa na árvore em ordem alfabética
@@ -169,26 +169,21 @@ arv* busca_arv(char nome[30] ,Parv* nodo, int aspectos)
 {
     if ((*nodo) == NULL)
         return NULL;
-    if (strcmp(nome,(*nodo)->nome)==0)
+    else if (strcmp(nome,(*nodo)->nome)==0)
     {
         if (aspectos == 1)
         {
-            printa_avos(*nodo);
-            printf("\n");
-            printa_filhos(*nodo);
-            printf("\n");
-            printa_primos(*nodo);
-            printf("\n");
-            printa_tio(*nodo);
-            getch();
+            printa_aspectos(*nodo);
+            return (*nodo);
         }
-        return (*nodo);
+        else
+            return (*nodo);
     }
     else if (ordem_alfabetica(nome,(*nodo)->nome) == 0)
     {
         busca_arv(nome,&((*nodo)->esq),aspectos);
     }
-    else
+    else if (ordem_alfabetica(nome,(*nodo)->nome) == 1)
     {
         busca_arv(nome,&((*nodo)->dir),aspectos);
     }

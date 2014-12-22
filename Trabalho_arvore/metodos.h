@@ -33,7 +33,6 @@ int ordem_alfabetica(char palavra[], char palavra1[])
                 return 0;
     }
     printf("Mesma palavra");
-    getch();
     return 2;
 }
 
@@ -44,36 +43,116 @@ void printa_filhos(arv* pessoa)
     aux = pessoa->filho;
     if (aux == NULL)
         printf("Sem filhos");
-    while (aux != NULL)
+    else
     {
         printf("filhos: ");
-        printf("%s ", aux->nome);
-        aux = aux->irmao;
+        while (aux != NULL)
+        {
+            printf(" %s", aux->nome);
+            aux = aux->irmao;
+        }
     }
 }
 
 void printa_tio(arv* pessoa)
 {
-    int i;
     arv* aux;
-    if (pessoa->pai == NULL)
+    if (pessoa->pai == NULL || pessoa->pai->pai == NULL)
     {
         printf("Nenhum tio");
         return NULL;
     }
-    aux = pessoa->pai->irmao;
-    while (aux != NULL)
+    aux = pessoa->pai->pai->filho;
+    if (aux->irmao != NULL)
     {
-        printf("Tios: ");
-        printf("%s ",aux->nome);
+        printf("Tios parte de pai: ");
+        while (aux != NULL)
+        {
+            if (aux != pessoa->pai)
+                printf("%s ",aux->nome);
+            aux = aux->irmao;
+        }
+    }
+    else
+        printf("Nenhum tio parte de pai");
+    aux = pessoa->mae->pai->filho;
+    if (aux->irmao != NULL)
+    {
+        printf("\nTios parte de mae: ");
+        while (aux != NULL)
+        {
+            if (aux != pessoa->mae)
+                printf("%s ",aux->nome);
+            aux = aux->irmao;
+        }
+    }
+    else
+        printf("\nNenhum tio parte de mae");
+}
+
+void printa_irmaos(arv* pessoa)
+{
+    Parv aux;
+    if (pessoa->pai == NULL)
+    {
+        printf("Nenhum irmao");
+        return NULL;
+    }
+    if (pessoa->pai->filho->irmao == NULL)
+    {
+        printf("Nenhum irmao");
+        return NULL;
+    }
+    aux = pessoa->pai->filho;
+    printf("Irmao(s): ");
+    while(aux != NULL)
+    {
+        if (aux != pessoa)
+            printf("%s ",aux->nome);
         aux = aux->irmao;
     }
-    aux = pessoa->mae->irmao;
-    while (aux != NULL)
+}
+
+void printa_aspectos(arv *nodo)
+{
+    printa_pais(nodo);
+    printf("\n");
+    printa_avos(nodo);
+    printf("\n");
+    printa_filhos(nodo);
+    printf("\n");
+    printa_primos(nodo);
+    printf("\n");
+    printa_tio(nodo);
+    printf("\n");
+    printa_irmaos(nodo);
+    printf("\n");
+    printa_conjuge(nodo);
+}
+
+void printa_conjuge(arv* pessoa)
+{
+    if (pessoa == NULL)
+        return;
+    if (pessoa->conjuge != NULL)
     {
-        printf("Tios: ");
-        printf("%s ",aux->nome);
-        aux = aux->irmao;
+        printf("Conjuge: %s", pessoa->conjuge->nome);
+        return;
+    }
+    else
+    {
+        printf("Solteiro(a)");
+        return;
+    }
+}
+
+void printa_pais(arv* pessoa)
+{
+    if (pessoa->pai == NULL)
+        printf("Sem pais");
+    else
+    {
+        printf("Pai: %s \nMae: %s",pessoa->pai->nome,pessoa->mae->nome);
     }
 }
 
@@ -81,33 +160,32 @@ void printa_avos(arv* pessoa)
 {
         if (pessoa->pai == NULL)
         {
-            printf("Nenhum avo");
+            printf("Sem avos");
             return NULL;
         }
         if (pessoa->pai->pai == NULL)
         {
-            printf("Nenhum avo");
+            printf("Sem avos");
             return NULL;
         }
-        printf("avo: %s  ",pessoa->pai->pai);
-        printf("avoh: %s",pessoa->pai->pai->conjuge);
+        printf("avo: %s  ",pessoa->pai->pai->nome);
+
+        printf("\navoh: %s",pessoa->pai->pai->conjuge->nome);
 }
 
 void printa_primos(arv* pessoa)
 {
-    if (pessoa->pai == NULL || pessoa->pai->irmao == NULL|| pessoa->pai->irmao->filho == NULL)
-        printf("Nenhum parte de pai");
+    Parv aux;
+    if (pessoa->pai == NULL || pessoa->pai->irmao == NULL || pessoa->pai->irmao->filho == NULL)
+        printf("Nenhum primo parte de pai");
     else
     {
-        printf("\nPrimos primo parte de pai: ");
-        Parv aux;
+        printf("Primos parte de pai:");
         aux = pessoa->pai->irmao->filho;
-        while(pessoa->pai->irmao->filho!=NULL);
+        while(aux!=NULL)
         {
-
-            printf("%s", aux->nome);
+            printf(" %s", aux->nome);
             aux = aux->irmao;
-
         }
     }
     if (pessoa->mae == NULL || pessoa->mae->irmao == NULL || pessoa->mae->irmao->filho == NULL)
@@ -115,12 +193,10 @@ void printa_primos(arv* pessoa)
     else
     {
         printf("\nPrimos parte de mae: ");
-        Parv aux;
         aux = pessoa->mae->irmao->filho;
-        while(pessoa->mae->irmao->filho!=NULL);
+        while(aux!=NULL)
         {
-
-            printf("%s", aux->nome);
+            printf(" %s", aux->nome);
             aux = aux->irmao;
 
         }
@@ -128,44 +204,79 @@ void printa_primos(arv* pessoa)
 }
 
 
-//Enche a árvore automaticamente tendo limite de até 200 pessoas
+//Enche a árvore automaticamente procurando e fazendo filhos entre os casais
 void casa_emordem(Parv nod)
 {
-    while (tamanho_arv < 50)
+    Parv conjuge = NULL;
+    if (tamanho_arv < 300)
     {
         if (nod != NULL)
         {
             if (nod->filho == NULL)
             {
-                nodoaux1 = busca_conjuge(nod, raiz);
-                if (nodoaux1 == NULL)
-                    return;
-                nodoaux1->conjuge = nod;
-                nod->conjuge = nodoaux1;
-                if (nod->sexo == 0)
-                    cria_filhos(nod, nodoaux1);
-                else
-                    cria_filhos(nodoaux1, nod);
+                conjuge = busca_conjuge(nod, raiz);
+                if (conjuge != NULL)
+                 {
+                    conjuge->conjuge = nod;
+                    nod->conjuge = conjuge;
+                    if (nod->sexo == 1)
+                    {
+                        troca_sobrenome(&nod,&conjuge);
+                        cria_filhos(nod, conjuge);
+                    }
+                    else
+                    {
+                        troca_sobrenome(&conjuge,&nod);
+                        cria_filhos(conjuge, nod);
+                    }
+                 }
+
             }
             casa_emordem(nod->esq);
             casa_emordem(nod->dir);
         }
-        printf("aqui fora while casaemordem",tamanho_arv);
     }
 }
 
 //Retorna uma pessoa em condições de ter filhos para outra pessoa
 arv* busca_conjuge(arv* nod, arv* raiz)
 {
-    if (nod != NULL)
+    arv* verifica = NULL;
+    printf("OPA");
+    if (nod != NULL && raiz != NULL && raiz != nod)
     {
-        if (raiz->filho == NULL && raiz->familia != (nod)->familia && (nod)->sexo != raiz->sexo)
+        if ((raiz->filho == NULL) && (raiz->familia != (nod)->familia) && ((nod)->sexo != raiz->sexo))
+        {
             return raiz;
-        busca_conjuge((nod), raiz->dir);
-        busca_conjuge((nod), raiz->esq);
+        }
+        if (verifica == NULL)
+            verifica = busca_conjuge((nod), raiz->dir);
+        if (verifica == NULL)
+            verifica = busca_conjuge((nod), raiz->esq);
+        if (verifica != NULL)
+            return verifica;
+        else
+            return NULL;
     }
+    else
+        return NULL;
 }
 
+void troca_sobrenome(Parv* marido, Parv* mulher)
+{
+    char j = 's';
+    int i = 0, z = 0;
+    while((int)(*mulher)->nome[z] != 32)
+    {
+        z++;
+    }
+    z++;
+    for (i = 0; i<=strlen(familias[(*marido)->familia]);i++)
+    {
+        (*mulher)->nome[z] = familias[(*marido)->familia][i];
+        z++;
+    }
+}
 
 //Imprime na ordem direita, raiz, esquerda
 void imp_minhaordem(Parv raiz)
@@ -181,16 +292,16 @@ void imp_minhaordem(Parv raiz)
 //Cria um nome para a pessoa de acordo com o nome do pai(O sobrenome do pai passa para os filhos)
 char* cria_nome(arv* pai, int sexo)
 {
-    char* nome = malloc(sizeof(char)*20);
-    if (sexo == 1)
+    char* nome = malloc(sizeof(char)*30);
+    if (sexo == 1 && pai != NULL)
     {
-        strcpy(nome,nomes_masculinos[rand()%25]);
+        strcpy(nome,nomes_masculinos[rand()%40]);
         strcat(nome,familias[pai->familia]);
         return nome;
     }
-    else
+    else if (pai != NULL)
     {
-        strcpy(nome,nomes_femininos[rand()%25]);
+        strcpy(nome,nomes_femininos[rand()%40]);
         strcat(nome,familias[pai->familia]);
         return nome;
     }
@@ -203,32 +314,33 @@ void cria_primeiros(int quantidade)
     arv* mae;
     int sexo =1;
     int i = 0, j = 0;
-    char nome[20];
+    char nome[30];
     quantidade_familias = quantidade;
     for (i=0;i<quantidade;i++)
     {
-        strcpy(familias[i],(sobre_nomes[rand()%20]));
+        strcpy(familias[i],(sobre_nomes[rand()%59]));
         while (j<i)
         {
             if((strcmp(familias[i],familias[j]))==0)
             {
                 j = -1;
-                strcpy(familias[i],(sobre_nomes[rand()%20]));
+                strcpy(familias[i],(sobre_nomes[rand()%59]));
             }
             j++;
         }
-        strcpy(nome,nomes_masculinos[rand()%30]);
+        strcpy(nome,nomes_masculinos[rand()%40]);
         strcat(nome,familias[i]);
         pai = insere_arv(&raiz,nome,sexo, NULL);
         pai->familia = i;
         sexo = 0;
-        strcpy(nome,nomes_femininos[rand()%30]);
+        strcpy(nome,nomes_femininos[rand()%40]);
         strcat(nome,familias[i]);
         mae = insere_arv(&raiz,nome, sexo, NULL);
         mae->familia = i;
+        pai->conjuge = mae;
+        mae->conjuge = pai;
         sexo = 1;
-        printf("antes cria filhos em criaprimeiros");
-        getch();
+        j = 0;
         cria_filhos(pai,mae);
     }
 }
@@ -237,26 +349,31 @@ void cria_primeiros(int quantidade)
 void cria_filhos(arv* pai,arv* mae)
 {
     int i, filhos, sexo;
-    char nome[20];
+    char nome[30];
     char* Pnome;
     arv* pessoa = NULL;
     arv* irmao = NULL;
     filhos = (1+rand()%4);
-    printf("cria filhosfilhos: %d", filhos);
     for (i=0;i<filhos;i++)
     {
         sexo = rand()%2;
-        printf("       sexo %d", sexo);
         Pnome = cria_nome(pai,sexo);
         strcpy(nome,Pnome);
+        while (busca_arv(nome, &raiz,0) != NULL)
+        {
+            Pnome = cria_nome(pai,sexo);
+            strcpy(nome,Pnome);
+        }
         free(Pnome);
-        printf("  depois do free");
         if (pessoa != NULL)
             irmao = pessoa;
         pessoa = insere_arv(&raiz,nome,sexo, pai);
         if (irmao != NULL)
             irmao->irmao = pessoa;
-        printf("pessoa: %p",pessoa);
+        if (i==0)
+        {
+            pai->filho = pessoa;
+            pai->conjuge->filho = pessoa;
+        }
     }
 }
-
